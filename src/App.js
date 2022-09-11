@@ -1,10 +1,24 @@
+import { useEffect, useState } from "react";
+import BurgerBlock from "./components/BurgerBlock";
 import Categories from "./components/Categories";
 import Header from "./components/Header";
-import PizzaBlock from "./components/PizzaBlock";
 import Sort from "./components/Sort";
 import "./scss/app.scss";
+import api from "./utils/api";
 
 function App() {
+  const [itemList, setItemList] = useState([]);
+
+  const itemPreload = () => {
+    api.getBurgerList().then((data) => {
+      setItemList(data);
+    });
+  };
+
+  useEffect(() => {
+    itemPreload();
+  }, []);
+
   return (
     <>
       <div className="wrapper">
@@ -17,8 +31,9 @@ function App() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-              <PizzaBlock title={"Домашняя"} price={500} />
-              <PizzaBlock title={"Де-Рома"} price={600} />
+              {itemList.map((burger) => {
+                return <BurgerBlock key={burger.id} {...burger} />;
+              })}
             </div>
           </div>
         </div>
@@ -28,3 +43,5 @@ function App() {
 }
 
 export default App;
+
+<BurgerBlock title={"Домашняя"} price={500} />;
