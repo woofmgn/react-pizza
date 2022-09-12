@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import BurgerBlock from "./components/BurgerBlock";
+import BurgerBlock from "./components/BurgerBlock/BurgerBlock";
+import Skeleton from "./components/BurgerBlock/Skeleton";
 import Categories from "./components/Categories";
 import Header from "./components/Header";
 import Sort from "./components/Sort";
@@ -8,11 +9,17 @@ import api from "./utils/api";
 
 function App() {
   const [itemList, setItemList] = useState([]);
+  const [isLoadingSkeleton, setIsloadingSkeleton] = useState(false);
 
   const itemPreload = () => {
-    api.getBurgerList().then((data) => {
-      setItemList(data);
-    });
+    setIsloadingSkeleton(true);
+    api
+      .getBurgerList()
+      .then((data) => {
+        setItemList(data);
+      })
+      .catch((err) => `Ошибка: ${err}`)
+      .finally(() => setIsloadingSkeleton(false));
   };
 
   useEffect(() => {
@@ -31,9 +38,11 @@ function App() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-              {itemList.map((burger) => {
-                return <BurgerBlock key={burger.id} {...burger} />;
-              })}
+              {isLoadingSkeleton
+                ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
+                : itemList.map((burger) => {
+                    return <BurgerBlock key={burger.id} {...burger} />;
+                  })}
             </div>
           </div>
         </div>
@@ -43,5 +52,3 @@ function App() {
 }
 
 export default App;
-
-<BurgerBlock title={"Домашняя"} price={500} />;
