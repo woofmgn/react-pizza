@@ -1,7 +1,5 @@
-// @import './fonts';
 @import './variables';
 @import './libs/normalize';
-
 @import './components/all';
 
 body {
@@ -15,6 +13,11 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+
+  @media (max-width: 650px) {
+    width: calc(100vw - 30px);
+    margin: 20px auto 20px auto;
+  }
 }
 
 .content {
@@ -25,15 +28,37 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 11px;
+    grid-row-gap: 10px;
+
+    @media (max-width: 1400px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 1100px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 760px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 1260px) {
+      flex-direction: column;
+
+      .categories {
+        margin-bottom: 30px;
+      }
+    }
   }
 }
 
@@ -73,6 +98,10 @@ body {
         stroke-width: 1.9;
       }
     }
+  }
+
+  .content__items {
+    display: flex;
   }
 
   &__clear {
