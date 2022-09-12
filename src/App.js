@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import BurgerBlock from "./components/BurgerBlock/BurgerBlock";
-import Skeleton from "./components/BurgerBlock/Skeleton";
-import Categories from "./components/Categories";
+import { Route, Routes } from "react-router-dom";
+
 import Header from "./components/Header";
-import Sort from "./components/Sort";
+import Cart from "./pages/Cart";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import "./scss/app.scss";
 import api from "./utils/api";
 
@@ -32,18 +33,19 @@ function App() {
         <Header />
         <div className="content">
           <div className="container">
-            <div className="content__top">
-              <Categories />
-              <Sort />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-              {isLoadingSkeleton
-                ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
-                : itemList.map((burger) => {
-                    return <BurgerBlock key={burger.id} {...burger} />;
-                  })}
-            </div>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    itemList={itemList}
+                    isLoadingSkeleton={isLoadingSkeleton}
+                  />
+                }
+              />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </div>
         </div>
       </div>
