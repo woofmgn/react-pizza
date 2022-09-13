@@ -12,8 +12,12 @@ class Api {
     return res.json();
   }
 
-  getBurgerList() {
-    return fetch(`${this._url}items/`).then(this._getResponseData);
+  getBurgerList(category) {
+    return fetch(`${this._url}items/${category}`).then(this._getResponseData);
+  }
+
+  getSortList(category) {
+    return fetch(`${this._url}items?sortBy=${category}`);
   }
 }
 
