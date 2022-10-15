@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { searchContext } from '../App';
 import BurgerBlock from '../components/BurgerBlock/BurgerBlock';
 import Skeleton from '../components/BurgerBlock/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import Sort from '../components/Sort';
 
-const Home = ({ searchValue }) => {
+const Home = () => {
   const [itemList, setItemList] = useState([]);
   const [isLoadingSkeleton, setIsloadingSkeleton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +16,7 @@ const Home = ({ searchValue }) => {
     name: 'популярности',
     sortProperty: 'rating',
   });
+  const { searchValue } = React.useContext(searchContext);
 
   useEffect(() => {
     setIsloadingSkeleton(true);
