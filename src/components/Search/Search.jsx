@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./Search.module.scss";
+import React from 'react';
+import styles from './Search.module.scss';
 
-const Search = () => {
+const Search = ({ searchValue, setSearchValue }) => {
   return (
     <div className={styles.root}>
       <svg
@@ -45,7 +45,25 @@ const Search = () => {
           <circle cx="22" cy="13" fill="#263238" r="0.5" />
         </g>
       </svg>
-      <input className={styles.input} placeholder="Поиск..." />
+      <input
+        className={styles.input}
+        placeholder="Поиск..."
+        value={searchValue}
+        onChange={(evt) => setSearchValue(evt.target.value)}
+      />
+      {searchValue && (
+        <svg
+          className={styles.clearIcon}
+          onClick={() => setSearchValue('')}
+          height="48"
+          viewBox="0 0 48 48"
+          width="48"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M38 12.83l-2.83-2.83-11.17 11.17-11.17-11.17-2.83 2.83 11.17 11.17-11.17 11.17 2.83 2.83 11.17-11.17 11.17 11.17 2.83-2.83-11.17-11.17z" />
+          <path d="M0 0h48v48h-48z" fill="none" />
+        </svg>
+      )}
     </div>
   );
 };
