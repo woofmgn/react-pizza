@@ -20,7 +20,7 @@ const Search = () => {
     debounce((str) => {
       console.log(str);
       setSearchValue(str);
-    }, 1000), [],
+    }, 500), [],
   ); 
 
   const onChangeInput = (evt) => {

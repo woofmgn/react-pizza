@@ -8,19 +8,23 @@ import Skeleton from '../components/BurgerBlock/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import Sort from '../components/Sort';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 
 const Home = () => {
-  const {categoryId, sort} = useSelector(state => state.filter);
+  const {categoryId, sort, currentPage} = useSelector(state => state.filter);
   const sortType = sort.sortProperty;
   const dispatch = useDispatch();
 
   const [itemList, setItemList] = useState([]);
   const [isLoadingSkeleton, setIsloadingSkeleton] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
 
   const onClickCategory = (i) => {
     dispatch(setCategoryId(i));
+  }
+
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
   }
 
   const { searchValue } = React.useContext(searchContext);
@@ -64,7 +68,7 @@ const Home = () => {
             ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
             : pizzas}
         </div>
-        <Pagination onChangePage={(number) => setCurrentPage(number)} />
+        <Pagination currentPage={currentPage} onChangePage={onChangePage} />
       </div>
     </>
   );
