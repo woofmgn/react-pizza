@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,17 +11,13 @@ import Sort from '../components/Sort';
 import { setCategoryId } from '../redux/slices/filterSlice';
 
 const Home = () => {
-  const categoryId = useSelector(state => state.filter.categoryId);
-  const sortType = useSelector(state => state.filter.sort.sortProperty);
+  const {categoryId, sort} = useSelector(state => state.filter);
+  const sortType = sort.sortProperty;
   const dispatch = useDispatch();
 
   const [itemList, setItemList] = useState([]);
   const [isLoadingSkeleton, setIsloadingSkeleton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [selectedSort, setSelectedSort] = useState({
-  //   name: 'популярности',
-  //   sortProperty: 'rating',
-  // });
 
   const onClickCategory = (i) => {
     dispatch(setCategoryId(i));
@@ -36,17 +33,15 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    fetch(
+    axios
+      .get(
       `https://631e2e919f946df7dc3f42c6.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setItemList(data);
-      })
-      .catch((err) => `Ошибка: ${err}`)
-      .finally(() => setIsloadingSkeleton(false));
+    .then((res) => {
+      setItemList(res.data);
+    })
+    .catch((err) => `Ошибка: ${err}`)
+    .finally(() => setIsloadingSkeleton(false));
   }, [categoryId, sortType, searchValue, currentPage]);
 
   const pizzas = itemList.map((burger) => (
