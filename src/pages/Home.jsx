@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { searchContext } from '../App';
 import BurgerBlock from '../components/BurgerBlock/BurgerBlock';
@@ -6,23 +7,32 @@ import Skeleton from '../components/BurgerBlock/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import Sort from '../components/Sort';
+import { setCategoryId } from '../redux/slices/filterSlice';
 
 const Home = () => {
+  const categoryId = useSelector(state => state.filter.categoryId);
+  const sortType = useSelector(state => state.filter.sort.sortProperty);
+  const dispatch = useDispatch();
+
   const [itemList, setItemList] = useState([]);
   const [isLoadingSkeleton, setIsloadingSkeleton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [categoryId, setCategoryId] = useState(0);
-  const [selectedSort, setSelectedSort] = useState({
-    name: 'популярности',
-    sortProperty: 'rating',
-  });
+  // const [selectedSort, setSelectedSort] = useState({
+  //   name: 'популярности',
+  //   sortProperty: 'rating',
+  // });
+
+  const onClickCategory = (i) => {
+    dispatch(setCategoryId(i));
+  }
+
   const { searchValue } = React.useContext(searchContext);
 
   useEffect(() => {
     setIsloadingSkeleton(true);
 
-    const sortBy = selectedSort.sortProperty.replace('-', '');
-    const order = selectedSort.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy = sortType.replace('-', '');
+    const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
@@ -37,7 +47,7 @@ const Home = () => {
       })
       .catch((err) => `Ошибка: ${err}`)
       .finally(() => setIsloadingSkeleton(false));
-  }, [categoryId, selectedSort, searchValue, currentPage]);
+  }, [categoryId, sortType, searchValue, currentPage]);
 
   const pizzas = itemList.map((burger) => (
     <BurgerBlock key={burger.id} {...burger} />
@@ -49,12 +59,9 @@ const Home = () => {
         <div className="content__top">
           <Categories
             categoryId={categoryId}
-            onClickCategory={(i) => setCategoryId(i)}
+            onClickCategory={onClickCategory}
           />
-          <Sort
-            selectedSort={selectedSort}
-            onChangeSortList={(i) => setSelectedSort(i)}
-          />
+          <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
