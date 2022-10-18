@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from "../../redux/slices/cartSlice";
 
 function BurgerBlock({
   id,
@@ -10,11 +12,28 @@ function BurgerBlock({
   category,
   rating,
 }) {
+  const dispatch = useDispatch();
+  const cartItem = useSelector(state => state.cart.items.find(obj => obj.id === id));
+
   const [pizzaCount, setPizzaCount] = useState(0);
+
+  const addedCount = cartItem ? cartItem.count : 0;
 
   const onClickAddPizza = () => {
     setPizzaCount(pizzaCount + 1);
   };
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      // type: activeType,
+      // size: activeSize,
+    };
+    dispatch(addItem(item));
+  }
 
   return (
     <div className="pizza-wrapper">
@@ -36,7 +55,7 @@ function BurgerBlock({
           <div className="pizza-block__price">{`От ${price}`}</div>
           <div
             className="button button--outline button--add"
-            onClick={onClickAddPizza}
+            onClick={onClickAdd}
           >
             <svg
               width="12"
@@ -51,7 +70,7 @@ function BurgerBlock({
               />
             </svg>
             <span>Добавить</span>
-            <i>{pizzaCount}</i>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </div>
         </div>
       </div>
