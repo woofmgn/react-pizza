@@ -33,7 +33,26 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   }
 
-  const fetchPizzas = () => {
+  // const fetchPizzas = () => {
+  //   setIsloadingSkeleton(true);
+
+  //   const sortBy = sortType.replace('-', '');
+  //   const order = sortType.includes('-') ? 'asc' : 'desc';
+  //   const category = categoryId > 0 ? `category=${categoryId}` : '';
+  //   const search = searchValue ? `&search=${searchValue}` : '';
+
+  //   axios
+  //     .get(
+  //     `https://631e2e919f946df7dc3f42c6.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+  //   )
+  //   .then((res) => {
+  //     setItemList(res.data);
+  //   })
+  //   .catch((err) => `Ошибка: ${err}`)
+  //   .finally(() => setIsloadingSkeleton(false));
+  // };
+
+  const fetchPizzas = async () => {
     setIsloadingSkeleton(true);
 
     const sortBy = sortType.replace('-', '');
@@ -41,15 +60,16 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    axios
+    try {
+      const res = await axios
       .get(
       `https://631e2e919f946df7dc3f42c6.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-    .then((res) => {
+    );
       setItemList(res.data);
-    })
-    .catch((err) => `Ошибка: ${err}`)
-    .finally(() => setIsloadingSkeleton(false));
+      setIsloadingSkeleton(false);
+    } catch(err) {
+      console.log(`Ошибка ${err}`)
+    }
   };
 
   const { searchValue } = React.useContext(searchContext);
