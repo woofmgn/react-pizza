@@ -11,6 +11,7 @@ import Categories from '../components/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import Sort, { list } from '../components/Sort';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setItems } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,12 +19,11 @@ const Home = () => {
   const isSearchRef = useRef(false);
   const isMountedRef = useRef(false);
 
+  const itemList = useSelector((state) => state.pizza.items);
   const {categoryId, sort, currentPage} = useSelector(state => state.filter);
   const sortType = sort.sortProperty;
   
-  const [itemList, setItemList] = useState([]);
   const [isLoadingSkeleton, setIsloadingSkeleton] = useState(false);
-  // const [currentPage, setCurrentPage] = useState(1);
 
   const onClickCategory = (i) => {
     dispatch(setCategoryId(i));
@@ -32,25 +32,6 @@ const Home = () => {
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   }
-
-  // const fetchPizzas = () => {
-  //   setIsloadingSkeleton(true);
-
-  //   const sortBy = sortType.replace('-', '');
-  //   const order = sortType.includes('-') ? 'asc' : 'desc';
-  //   const category = categoryId > 0 ? `category=${categoryId}` : '';
-  //   const search = searchValue ? `&search=${searchValue}` : '';
-
-  //   axios
-  //     .get(
-  //     `https://631e2e919f946df7dc3f42c6.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-  //   )
-  //   .then((res) => {
-  //     setItemList(res.data);
-  //   })
-  //   .catch((err) => `Ошибка: ${err}`)
-  //   .finally(() => setIsloadingSkeleton(false));
-  // };
 
   const fetchPizzas = async () => {
     setIsloadingSkeleton(true);
@@ -65,11 +46,14 @@ const Home = () => {
       .get(
       `https://631e2e919f946df7dc3f42c6.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     );
-      setItemList(res.data);
+     dispatch(setItems(res.data)); 
+    } catch (err) {
+      console.log(`Ошибка ${err}`);
+    } finally {
       setIsloadingSkeleton(false);
-    } catch(err) {
-      console.log(`Ошибка ${err}`)
     }
+
+    window.scrollTo(0, 0);
   };
 
   const { searchValue } = React.useContext(searchContext);
