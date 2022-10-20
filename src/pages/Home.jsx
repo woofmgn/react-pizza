@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { searchContext } from '../App';
 import BurgerBlock from '../components/BurgerBlock/BurgerBlock';
 import Skeleton from '../components/BurgerBlock/Skeleton';
 import Categories from '../components/Categories';
@@ -19,10 +18,8 @@ const Home = () => {
   const isMountedRef = useRef(false);
 
   const { items, status } = useSelector((state) => state.pizza);
-  const {categoryId, sort, currentPage} = useSelector(state => state.filter);
+  const { searchValue, categoryId, sort, currentPage } = useSelector(state => state.filter);
   const sortType = sort.sortProperty;
-
-  const { searchValue } = React.useContext(searchContext);
 
   const onClickCategory = (i) => {
     dispatch(setCategoryId(i));
@@ -31,29 +28,6 @@ const Home = () => {
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   }
-
-  // const fetchPizzas = async () => {
-  //   setIsloadingSkeleton(true);
-
-  //   const sortBy = sortType.replace('-', '');
-  //   const order = sortType.includes('-') ? 'asc' : 'desc';
-  //   const category = categoryId > 0 ? `category=${categoryId}` : '';
-  //   const search = searchValue ? `&search=${searchValue}` : '';
-
-  //   try {
-  //     const res = await axios
-  //     .get(
-  //     `https://631e2e919f946df7dc3f42c6.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-  //   );
-  //    dispatch(setItems(res.data)); 
-  //   } catch (err) {
-  //     console.log(`Ошибка ${err}`);
-  //   } finally {
-  //     setIsloadingSkeleton(false);
-  //   }
-
-  //   window.scrollTo(0, 0);
-  // };
 
   const getPizzas = () => {
 

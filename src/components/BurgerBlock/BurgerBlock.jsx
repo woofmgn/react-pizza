@@ -13,7 +13,7 @@ function BurgerBlock({
   rating,
 }) {
   const dispatch = useDispatch();
-  const cartItem = useSelector(state => state.cart.items.find(obj => obj.id === id));
+  const cartItem = useSelector((state) => state.cart.items.find(obj => obj.id === id));
 
   const [pizzaCount, setPizzaCount] = useState(0);
 
