@@ -8,7 +8,11 @@ import Skeleton from '../components/BurgerBlock/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import Sort, { list } from '../components/Sort';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import {
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice';
 import { fetchPizzasList } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
@@ -18,41 +22,44 @@ const Home = () => {
   const isMountedRef = useRef(false);
 
   const { items, status } = useSelector((state) => state.pizza);
-  const { searchValue, categoryId, sort, currentPage } = useSelector(state => state.filter);
+  const { searchValue, categoryId, sort, currentPage } = useSelector(
+    (state) => state.filter
+  );
   const sortType = sort.sortProperty;
 
   const onClickCategory = (i) => {
     dispatch(setCategoryId(i));
-  }
+  };
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
-  }
+  };
 
   const getPizzas = () => {
-
     const sortBy = sortType.replace('-', '');
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-     dispatch(fetchPizzasList({
-      sortBy,
-      order,
-      category,
-      search,
-      currentPage
-     })); 
+    dispatch(
+      fetchPizzasList({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      })
+    );
 
     window.scrollTo(0, 0);
   };
 
-// Если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
+  // Если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
   useEffect(() => {
-    if(window.location.search) {
+    if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
 
-      const sort = list.find(obj => obj.sortProperty === params.sortProperty);
+      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(
         setFilters({
@@ -62,9 +69,9 @@ const Home = () => {
       );
       isSearchRef.current = true;
     }
-  }, [])
+  }, []);
 
-// Если был первый рендер, тогда запрашиваем пиццы с сервера
+  // Если был первый рендер, тогда запрашиваем пиццы с сервера
   // useEffect(() => {
   //   window.scrollTo(0, 0);
 
@@ -79,7 +86,7 @@ const Home = () => {
     getPizzas();
   }, [categoryId, sortType, searchValue, currentPage]);
 
-// Если изменились параметры и был первый рендер
+  // Если изменились параметры и был первый рендер
   useEffect(() => {
     if (isMountedRef.current) {
       const queryString = qs.stringify({
@@ -107,12 +114,11 @@ const Home = () => {
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        {
-          status === 'error' ? (
-          <div className='content__error-info'>
+        {status === 'error' ? (
+          <div className="content__error-info">
             <h2>Произошла ошибка</h2>
           </div>
-           ) : (
+        ) : (
           <div className="content__items">
             {status === 'loading'
               ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
