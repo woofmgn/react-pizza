@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -5,8 +6,8 @@ import logo from '../assets/img/burger-svgrepo-com.svg';
 import Search from './Search/Search';
 
 function Header() {
-  const { items, totalPrice } = useSelector((state) => state.cart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const { items, totalPrice } = useSelector((state: any) => state.cart);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const location = useLocation();
 
