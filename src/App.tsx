@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import './scss/app.scss';
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <div className="wrapper">
