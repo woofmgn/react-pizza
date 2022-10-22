@@ -4,11 +4,11 @@ import { clearItems } from '../redux/slices/cartSlice';
 
 import CartItem from '../components/CartItem';
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const { totalPrice, items } = useSelector((state) => state.cart);
+  const { totalPrice, items } = useSelector((state: any) => state.cart);
 
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const onClickClear = () => {
     if (window.confirm('Удалить все товары?')) {
@@ -94,7 +94,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="content-card__items">
-          {items.map((item) => (
+          {items.map((item: any) => (
             <CartItem key={item.id} {...item} />
           ))}
         </div>

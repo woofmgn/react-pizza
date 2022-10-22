@@ -11,27 +11,27 @@ import Sort, { list } from '../components/Sort';
 import {
   setCategoryId,
   setCurrentPage,
-  setFilters,
+  setFilters
 } from '../redux/slices/filterSlice';
 import { fetchPizzasList } from '../redux/slices/pizzaSlice';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearchRef = useRef(false);
   const isMountedRef = useRef(false);
 
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state: any) => state.pizza);
   const { searchValue, categoryId, sort, currentPage } = useSelector(
-    (state) => state.filter
+    (state: any) => state.filter
   );
   const sortType = sort.sortProperty;
 
-  const onClickCategory = (i) => {
+  const onClickCategory = (i: number) => {
     dispatch(setCategoryId(i));
   };
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
@@ -42,6 +42,7 @@ const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      //@ts-ignore
       fetchPizzasList({
         sortBy,
         order,
@@ -99,7 +100,7 @@ const Home = () => {
     isMountedRef.current = true;
   }, [categoryId, sortType, currentPage]);
 
-  const pizzas = items.map((burger) => (
+  const pizzas = items.map((burger: any) => (
     <BurgerBlock key={burger.id} {...burger} />
   ));
 

@@ -1,4 +1,11 @@
-function Categories({ categoryId, onClickCategory }) {
+import React from "react";
+
+type CategoriesProps = {
+  categoryId: number;
+  onClickCategory: any;
+};
+
+const Categories: React.FC<CategoriesProps> = ({ categoryId, onClickCategory }) => {
   const categories = [
     "Все",
     "Мясные",

@@ -14,7 +14,7 @@ export const list: SortItem[] = [
   { name: "алфавиту", sortProperty: "title" },
 ];
 
-function Sort() {
+const Sort: React.FC = () => {
   const dispatch = useDispatch();
   const sort = useSelector((state: any) => state.filter.sort);
 
