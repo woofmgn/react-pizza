@@ -63,12 +63,15 @@ const Home: React.FC = () => {
 
       const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
 
-      dispatch(
-        setFilters({
-          ...params,
-          sort,
+      if (sort) {
+        dispatch(setFilters({
+          ...params, sort,
+          searchValue,
+          categoryId,
+          currentPage
         })
-      );
+        );
+      }
       isSearchRef.current = true;
     }
   }, []);
