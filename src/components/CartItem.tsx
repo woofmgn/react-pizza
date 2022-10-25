@@ -16,6 +16,10 @@ export const CartItem: React.FC<CartItemProps> = ({id, title, price, count, imag
   const onClickPlus = () => {
     dispatch(addItem({
       id,
+      title: '',
+      price: 0,
+      imageUrl: '',
+      count: 0
     }))
   };
 

@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
 import logo from '../assets/img/burger-svgrepo-com.svg';
+import { RootState } from '../redux/store';
 import Search from './Search/Search';
 
 const Header: React.FC = () => {
-  const { items, totalPrice } = useSelector((state: any) => state.cart);
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart);
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const location = useLocation();

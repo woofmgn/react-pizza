@@ -3,12 +3,13 @@ import React, { useCallback, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setSearchValue } from '../../redux/slices/filterSlice';
+import { RootState } from '../../redux/store';
 
 import styles from './Search.module.scss';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const { searchValue } = useSelector((state: any) => state.filter);
+  const { searchValue } = useSelector((state: RootState) => state.filter);
 
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);

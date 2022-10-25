@@ -14,6 +14,7 @@ import {
   setFilters
 } from '../redux/slices/filterSlice';
 import { fetchPizzasList } from '../redux/slices/pizzaSlice';
+import { RootState } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -21,9 +22,9 @@ const Home: React.FC = () => {
   const isSearchRef = useRef(false);
   const isMountedRef = useRef(false);
 
-  const { items, status } = useSelector((state: any) => state.pizza);
+  const { items, status } = useSelector((state: RootState) => state.pizza);
   const { searchValue, categoryId, sort, currentPage } = useSelector(
-    (state: any) => state.filter
+    (state: RootState) => state.filter
   );
   const sortType = sort.sortProperty;
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, CartItem } from "../../redux/slices/cartSlice";
+import { RootState } from "../../redux/store";
 
 type BurgerBlockProps = {
   id: number;
@@ -16,7 +17,7 @@ const BurgerBlock: React.FC<BurgerBlockProps> = ({
   price,
 }) => {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state: any) => state.cart.items.find((obj: any) => obj.id === id));
+  const cartItem = useSelector((state: RootState) => state.cart.items.find((obj: any) => obj.id === id));
 
   // const [pizzaCount, setPizzaCount] = useState(0);
 
@@ -27,11 +28,12 @@ const BurgerBlock: React.FC<BurgerBlockProps> = ({
   // };
 
   const onClickAdd = () => {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
+      count: 0,
       // type: activeType,
       // size: activeSize,
     };
