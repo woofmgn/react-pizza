@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearItems } from '../redux/slices/cartSlice';
 
-import CartItem from '../components/CartItem';
+import CartItemBlock from '../components/CartItemBlock';
 import { RootState } from '../redux/store';
 
 const Cart: React.FC = () => {
@@ -96,7 +96,7 @@ const Cart: React.FC = () => {
         </div>
         <div className="content-card__items">
           {items.map((item: any) => (
-            <CartItem key={item.id} {...item} />
+            <CartItemBlock key={item.id} {...item} />
           ))}
         </div>
         <div className="cart__bottom">

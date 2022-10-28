@@ -1,6 +1,6 @@
 import qs from 'qs';
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import BurgerBlock from '../components/BurgerBlock/BurgerBlock';
@@ -14,11 +14,11 @@ import {
   setFilters
 } from '../redux/slices/filterSlice';
 import { fetchPizzasList } from '../redux/slices/pizzaSlice';
-import { RootState } from '../redux/store';
+import { RootState, useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearchRef = useRef(false);
   const isMountedRef = useRef(false);
 
@@ -43,7 +43,6 @@ const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      //@ts-ignore
       fetchPizzasList({
         sortBy,
         order,
@@ -65,30 +64,22 @@ const Home: React.FC = () => {
 
       if (sort) {
         dispatch(setFilters({
-          ...params, sort,
+          ...params,
+          sort,
           searchValue,
           categoryId,
-          currentPage
+          currentPage,
         })
         );
       }
       isSearchRef.current = true;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Если был первый рендер, тогда запрашиваем пиццы с сервера
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-
-  //   if(!isSearchRef.current) {
-  //     getPizzas()
-  //   }
-
-  //   isSearchRef.current = false;
-  // }, [categoryId, sortType, searchValue, currentPage]);
 
   useEffect(() => {
     getPizzas();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, sortType, searchValue, currentPage]);
 
   // Если изменились параметры и был первый рендер
@@ -102,6 +93,7 @@ const Home: React.FC = () => {
       navigate(`?${queryString}`);
     }
     isMountedRef.current = true;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, sortType, currentPage]);
 
   const pizzas = items.map((burger: any) => (
