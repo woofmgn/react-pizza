@@ -28,10 +28,6 @@ const Home: React.FC = () => {
   );
   const sortType = sort.sortProperty;
 
-  // const onClickCategory = (i: number) => {
-  //   dispatch(setCategoryId(i));
-  // };
-
   const onClickCategory = React.useCallback((i: number) => {
     dispatch(setCategoryId(i));
   // eslint-disable-next-line react-hooks/exhaustive-deps

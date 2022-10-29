@@ -19,13 +19,7 @@ const BurgerBlock: React.FC<BurgerBlockProps> = ({
   const dispatch = useDispatch();
   const cartItem = useSelector((state: RootState) => state.cart.items.find((obj: any) => obj.id === id));
 
-  // const [pizzaCount, setPizzaCount] = useState(0);
-
   const addedCount = cartItem ? cartItem.count : 0;
-
-  // const onClickAddPizza = () => {
-  //   setPizzaCount(pizzaCount + 1);
-  // };
 
   const onClickAdd = () => {
     const item: CartItem = {
