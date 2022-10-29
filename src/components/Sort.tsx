@@ -4,13 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSort, SortArgs } from '../redux/slices/filterSlice';
 import { RootState } from "../redux/store";
 
-// type SortItem = {
-//   name: string;
-//   sortProperty: any;
-// };
-
-
-
 type PopupClick = MouseEvent & {
   path: Node[];
 };
@@ -21,7 +14,7 @@ export const list: SortArgs[] = [
   { name: "алфавиту", sortProperty: "title" },
 ];
 
-const Sort: React.FC = () => {
+const Sort: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const sort = useSelector((state: RootState) => state.filter.sort);
 
@@ -87,6 +80,6 @@ const Sort: React.FC = () => {
       )}
     </div>
   );
-}
+});
 
 export default Sort;
