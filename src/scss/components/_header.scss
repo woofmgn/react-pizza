@@ -6,12 +6,15 @@
 
   .container {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
   }
 
   &__logo {
     display: flex;
+    height: 54px;
+    width: 220px;
 
     img {
       margin-right: 15px;
